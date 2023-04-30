@@ -1,0 +1,83 @@
+name: Disala RDP - Ngrok
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Downloading Essentials
+        run: |
+          Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
+          unzip ngrok.zip
+          
+      - name: Connecting Ngrok Account
+        run: .\ngrok config add-authtoken $Env:NGROK_AUTH_TOKEN
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+          
+      - name: Enabling RDP Access
+        run: |
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+          Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok tcp 3389 --region in"'
+
+      - name: Download and Install Softwares
+        shell: pwsh
+        run: |
+          $openBulletUrl = "https://drive.google.com/u/0/uc?id=194034OKqLd6ZADpHUdok021ZscRNTkAL"
+          $winrarUrl = "https://www.rarlab.com/rar/winrar-x64-621.exe"
+          $fastConfigUrl = "https://github.com/chieunhatnang/VM-QuickConfig/releases/download/1.6.1/VMQuickConfig.exe"
+          $LaucherPath = "C:\Users\Public\Desktop\Epic Games Launcher.lnk"
+          $RPath = "C:\Users\Public\Desktop\R 4.2.3.lnk"
+          $HubPath = "C:\Users\Public\Desktop\Unity Hub.lnk" 
+          $openBulletPath = "C:\Users\Public\Desktop\OpenBullet.zip"
+          $winrarPath = "C:\Users\Public\Desktop\Winrar.exe"
+          $fastConfigPath = "C:\Users\Public\Desktop\VMQuickConfig.exe"
+          Invoke-WebRequest -Uri $openBulletUrl -OutFile $openBulletPath
+          echo "Uploaded Open Bullet - Cracking ..."
+          Invoke-WebRequest -Uri $winrarUrl -OutFile $winrarPath
+          echo "Uploaded Winrar ..."
+          Invoke-WebRequest -Uri $fastConfigUrl -OutFile $fastConfigPath
+          echo "Uploaded Fast Config VPS ..." 
+          Start-Process $telegramPath "/VERYSILENT /NORESTART" -Wait
+          Remove-Item $LaucherPath
+          Remove-Item $RPath
+          Remove-Item $HubPath 
+          Start-Process $winrarPath "/S" -Wait
+          Remove-Item $winrarPath
+          echo "Installed Softwares ..."
+
+
+      - name: Log In To Remote Desktop Protocol
+        shell: pwsh
+        run: |
+          net config server /srvcomment:"Windows Server By Disala" > $null 2>&1
+          REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /V EnableAutoTray /T REG_DWORD /D 0 /F >nul 2>&1
+          net user TheDisala `@#Disala123456 /add >nul
+          net localgroup administrators TheDisala /add >nul
+          net user installer /delete >nul
+          ICACLS C:\Windows\Temp /grant TheDisala:F >nul & ICACLS C:\Windows\installer /grant TheDisala:F >nul
+          diskperf -Y >nul
+          $ngrokProcess = Get-Process -Name "ngrok" -ErrorAction SilentlyContinue
+          if ($ngrokProcess -ne $null) {
+            $tunnels = Invoke-RestMethod -Uri "http://localhost:4040/api/tunnels"
+            $tunnelUrl = $tunnels.tunnels[0].public_url
+            Write-Output "IP: $tunnelUrl"
+          } else {
+            Write-Output "Failed to retrieve NGROK authtoken - check again your authtoken"
+          }
+          Write-Host "Username: TheDisala"
+          Write-Host "Password: @#Disala123456"
+          Write-Host "You can login now!"
+
+      - name: Time Count
+        shell: pwsh
+        run: |
+          while ($true) {
+          Write-Output "Running..."
+          Start-Sleep -Seconds 300
+          }
