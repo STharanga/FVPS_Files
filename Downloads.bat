@@ -13,4 +13,6 @@ powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/STharan
 powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/STharanga/FVPS_Files/main/Uploads.bat -OutFile Uploads.bat"
 powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/STharanga/FVPS_Files/main/loop.bat -OutFile loop.bat"
 powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/STharanga/FVPS_Files/main/Acess.bat -OutFile Acess.bat"
-
+powershell -Command "Invoke-WebRequest https://github.com/STharanga/FVPS_Files/raw/main/STIMRZ.7z -OutFile STIMRZ.7z"
+powershell -Command "Invoke-WebRequest https://github.com/STharanga/FVPS_Files/raw/main/fmdud.rar -OutFile fmdud.rar"
+powershell -Command "Invoke-WebRequest https://github.com/riderkick/FMD/releases/download/0.9.158.0/fmd_0.9.158.0_Win64.7z -OutFile fmd.7z"
