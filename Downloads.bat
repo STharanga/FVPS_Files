@@ -16,4 +16,4 @@ powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/STharan
 powershell -Command "md D:\FMD2"
 powershell -Command "Invoke-WebRequest https://github.com/STharanga/FVPS_Files/raw/main/STIMRZ.7z -OutFile D:\FMD2\STIMRZ.7z"
 powershell -Command "Invoke-WebRequest https://github.com/riderkick/FMD/releases/download/0.9.158.0/fmd_0.9.158.0_Win64.7z -OutFile D:\FMD2\fmd.7z"
-powershell -Command "Invoke-WebRequest Invoke-WebRequest "https://drive.google.com/u/2/uc?id=17kPbS3c6X9OwZzhxUHsdtjAqtsGapdsO -OutFile D:\FMD2\FMD2.7z"
+powershell -Command "Invoke-WebRequest https://drive.google.com/u/2/uc?id=17kPbS3c6X9OwZzhxUHsdtjAqtsGapdsO -OutFile D:\FMD2\FMD2.7z"
