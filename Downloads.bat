@@ -2,8 +2,6 @@ setlocal
 powershell -Command "choco install ngrok -y"
 powershell -Command "choco install nssm -y"
 powershell -Command "choco install googledrive -y"
-powershell -Command "choco install rustdesk -y"
-powershell -Command "choco install beyondcompare -y"
 powershell -Command "choco install qdir -y"
 powershell -Command "choco install axel -y"
 powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/STharanga/FVPS_Files/main/start.bat -OutFile start.bat"
